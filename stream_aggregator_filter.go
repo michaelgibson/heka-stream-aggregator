@@ -18,6 +18,8 @@ type StreamAggregatorFilter struct {
 }
 
 type StreamAggregatorFilterConfig struct {
+        Delimitter          string `toml:"delimitter"` // Delimitter used to append to end of each protobuf for splitting on when decoding later.
+                                                       // Defaults to '\n'
         FlushInterval uint32 `toml:"flush_interval"`
         FlushBytes    int    `toml:"flush_bytes"`
         StreamAggregatorTag       string `toml:"stream_aggregator_tag"`
@@ -26,6 +28,7 @@ type StreamAggregatorFilterConfig struct {
 
 func (f *StreamAggregatorFilter) ConfigStruct() interface{} {
         return &StreamAggregatorFilterConfig{
+        Delimitter:     "\n",
         FlushInterval: 1000,
         FlushBytes:    10,
         StreamAggregatorTag:       "aggregated",
@@ -53,7 +56,6 @@ func (f *StreamAggregatorFilter) committer(fr FilterRunner, h PluginHelper, wg *
         f.backChan <- initBatch
         var (
             tag string
-            //ok bool
             outBatch []byte
         )
         tag = f.StreamAggregatorTag
@@ -85,6 +87,7 @@ func (f *StreamAggregatorFilter) receiver(fr FilterRunner, h PluginHelper, encod
                 e        error
         )
         ok = true
+        delimitter := f.Delimitter
         outBatch := make([]byte, 0, 10000)
         outBytes := make([]byte, 0, 10000)
         ticker := time.Tick(time.Duration(f.FlushInterval) * time.Millisecond)
@@ -107,8 +110,8 @@ func (f *StreamAggregatorFilter) receiver(fr FilterRunner, h PluginHelper, encod
                                 fr.LogError(fmt.Errorf("Error encoding message: %s", e))
                         } else {
                             if len(outBytes) > 0 {
-                                outBytes = append(outBytes, '\n')
                                 outBatch = append(outBatch, outBytes...)
+                                outBatch = append(outBatch, delimitter...)
 
                                 if len(outBatch) > f.FlushBytes {
                                         f.batchChan <- outBatch
