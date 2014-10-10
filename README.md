@@ -22,10 +22,10 @@ Build Heka:
 
 Config
 ======
-[filter_stream_aggregator]
-type = "StreamAggregatorFilter"
-message_matcher = "Fields[decoded] == 'True'"
-stream_aggregator_tag = "aggregated"
-flush_interval = 30000
-flush_bytes = 1000000
-encoder = "encoder_json"
+	[filter_stream_aggregator]
+	type = "StreamAggregatorFilter"
+	message_matcher = "Fields[decoded] == 'True'"
+	stream_aggregator_tag = "aggregated"
+	flush_interval = 30000
+	flush_bytes = 1000000
+	encoder = "encoder_json"
