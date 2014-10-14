@@ -18,7 +18,7 @@ type StreamAggregatorFilter struct {
 }
 
 type StreamAggregatorFilterConfig struct {
-        Delimitter          string `toml:"delimitter"` // Delimitter used to append to end of each protobuf for splitting on when decoding later.
+        Delimiter          string `toml:"delimiter"` // Delimiter used to append to end of each protobuf for splitting on when decoding later.
                                                        // Defaults to '\n'
         FlushInterval uint32 `toml:"flush_interval"`
         FlushBytes    int    `toml:"flush_bytes"`
@@ -28,7 +28,7 @@ type StreamAggregatorFilterConfig struct {
 
 func (f *StreamAggregatorFilter) ConfigStruct() interface{} {
         return &StreamAggregatorFilterConfig{
-        Delimitter:     "\n",
+        Delimiter:     "\n",
         FlushInterval: 1000,
         FlushBytes:    10,
         StreamAggregatorTag:       "aggregated",
@@ -87,7 +87,7 @@ func (f *StreamAggregatorFilter) receiver(fr FilterRunner, h PluginHelper, encod
                 e        error
         )
         ok = true
-        delimitter := f.Delimitter
+        delimiter := f.Delimiter
         outBatch := make([]byte, 0, 10000)
         outBytes := make([]byte, 0, 10000)
         ticker := time.Tick(time.Duration(f.FlushInterval) * time.Millisecond)
@@ -111,7 +111,7 @@ func (f *StreamAggregatorFilter) receiver(fr FilterRunner, h PluginHelper, encod
                         } else {
                             if len(outBytes) > 0 {
                                 outBatch = append(outBatch, outBytes...)
-                                outBatch = append(outBatch, delimitter...)
+                                outBatch = append(outBatch, delimiter...)
 
                                 if len(outBatch) > f.FlushBytes {
                                         f.batchChan <- outBatch

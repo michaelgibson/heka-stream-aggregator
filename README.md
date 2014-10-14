@@ -6,7 +6,7 @@ StreamAggregatorFilter
 ===========
 This is a filter that can be used for aggregating multiple payloads into a single message.
 It accepts an encoder option that will be used prior to aggregating each payload.
-Each payload is separated by the delimitter config value.
+Each payload is separated by the delimiter config value.
 
 Config: 
 
@@ -34,7 +34,7 @@ Example:
 	flush_interval = 30000
 	flush_bytes = 1000000
 	encoder = "encoder_json"
-	delimitter = "\n" # Default
+	delimiter = "\n" # Default
 
 StreamSplitterDecoder
 ===========
@@ -51,7 +51,7 @@ Example:
 
 	[multi_decoder.subs.split_decoder]
 	type = "StreamSplitterDecoder"
-	delimitter = "\n"
+	delimiter = "\n"
 	[split_decoder.message_fields]
 	Split = "ok"
 
