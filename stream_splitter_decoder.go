@@ -23,7 +23,6 @@ type StreamSplitterDecoderConfig struct {
     // interpolated so it can use capture parts from the message match.
     Delimiter string `toml:"delimiter"` // Delimiter used to append to end of each protobuf for splitting on when decoding later.
                                           // Defaults to '\n'
-    MessageFields MessageTemplate `toml:"message_fields"`
 }
 
 type StreamSplitterDecoder struct {
@@ -40,7 +39,6 @@ func (ld *StreamSplitterDecoder) ConfigStruct() interface{} {
 
 func (ld *StreamSplitterDecoder) Init(config interface{}) (err error) {
     ld.StreamSplitterDecoderConfig = config.(*StreamSplitterDecoderConfig)
-    ld.MessageFields = make(MessageTemplate)
     return
 }
 
