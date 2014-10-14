@@ -51,6 +51,7 @@ Example:
 
 	[multi_decoder.subs.split_decoder]
 	type = "StreamSplitterDecoder"
+	delimitter = "\n"
 	[split_decoder.message_fields]
 	Split = "ok"
 
