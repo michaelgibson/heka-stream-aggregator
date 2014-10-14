@@ -28,7 +28,6 @@ type StreamSplitterDecoderConfig struct {
 type StreamSplitterDecoder struct {
     *StreamSplitterDecoderConfig
     dRunner         DecoderRunner
-    MessageFields   MessageTemplate
 }
 
 func (ld *StreamSplitterDecoder) ConfigStruct() interface{} {
