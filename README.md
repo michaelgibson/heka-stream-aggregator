@@ -4,7 +4,26 @@ Stream aggregation for [Mozilla Heka](http://hekad.readthedocs.org/)
 
 StreamAggregatorFilter
 ===========
+This is a filter that can be used for aggregating multiple payloads into a single message.
+It accepts an encoder option that will be used prior to aggregating each payload.
+Each payload is separated by the delimitter config value.
 
+Config: 
+
+- stream_aggregator_tag:
+	Optional tagging for identifying new pack down the pipeline since you will lose any Fields previously held.
+	This setting creates a new Heka Field called "StreamAggregatorTag" and is given the value of this option. Defaults to "aggregated"
+
+- flush_interval: 
+	Interval at which accumulated payloads should be compressed in milliseconds.
+	Defaults to 1000 (i.e. one second)
+
+- flush_bytes:
+	Number of payloads that, if processed, will trigger them to be compressed.
+	Defaults to 10.
+
+- encoder:
+	This option will run each Payload through the specified encoder prior to aggregating.(required)
 
 To Build
 ========
