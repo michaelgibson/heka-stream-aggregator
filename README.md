@@ -35,6 +35,31 @@ Example:
 	flush_bytes = 1000000
 	encoder = "encoder_json"
 	delimiter = "\n" # Default
+	
+	
+	
+Example2 for bulk ES inserts:
+	[filter_stream_aggregator]
+	type = "StreamAggregatorFilter"
+	message_matcher = "Fields[decoded] == 'True'"
+	stream_aggregator_tag = "aggregated"
+	flush_interval = 30000
+	flush_bytes = 1000000
+	encoder = "ESLogstashV0Encoder"
+	delimiter = ""
+	
+	[ESLogstashV0Encoder]
+	index = "logstash-%{program}-%{2006.01.02}"
+	type_name = "%{program}"
+	es_index_from_timestamp = true
+	id = "%{id}"
+	
+ES Output heka instance(don't use StreamSplitterDecoder):
+
+	[HttpOutput]
+	message_matcher = "Fields[decoded] == 'True'"
+	address = "http://es01.foo.bar:9200/_bulk"
+	encoder	= "encoder_payload"
 
 StreamSplitterDecoder
 ===========
@@ -58,7 +83,6 @@ Example:
 	script_type = "lua"
 	filename = "/usr/share/heka/lua_decoders/json_decoder.lua"
 	preserve_data = true
-
 
 To Build
 ========
