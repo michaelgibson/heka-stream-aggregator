@@ -1,6 +1,6 @@
 heka-stream-aggregator
 ======================
-Stream aggregation for [Mozilla Heka](http://hekad.readthedocs.org/)
+Stream aggregation plugin for [Mozilla Heka](http://hekad.readthedocs.org/)
 
 StreamAggregatorFilter
 ===========
