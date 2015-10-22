@@ -55,10 +55,10 @@ Example2 for bulk ES inserts:
 	es_index_from_timestamp = true
 	id = "%{id}"
 	
-ES Output heka instance(don't use StreamSplitterDecoder):
+HTTP Output heka instance
 
 	[HttpOutput]
-	message_matcher = "Fields[decoded] == 'True'"
+	message_matcher = "Fields[StreamAggregatorTag] == 'aggregated'"
 	address = "http://es01.foo.bar:9200/_bulk"
 	encoder	= "encoder_payload"
 
