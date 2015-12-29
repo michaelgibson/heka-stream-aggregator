@@ -67,7 +67,7 @@ func (ld *StreamSplitterDecoder) Decode(pack *PipelinePack) (packs []*PipelinePa
         packs = append(packs, newpack)
     }
     }
-    pack.Recycle()
+    pack.Recycle(nil)
     return
 }
 
