@@ -44,7 +44,7 @@ type StreamAggregatorFilter struct {
 
 type StreamAggregatorFilterConfig struct {
         Delimiter          string `toml:"delimiter"` // Delimiter used to append to end of each protobuf for splitting on when decoding later.
-                                                       // Defaults to '\n'
+                                                     // Defaults to '\n'
         FlushInterval uint32 `toml:"flush_interval"`
         FlushBytes    int    `toml:"flush_bytes"`
 	// Number of messages that triggers a flush
@@ -208,7 +208,6 @@ func (f *StreamAggregatorFilter) committer(h PluginHelper) {
 			}
 		}
 
-//		pack := NewPipelinePack(f.fr.InChan())
 		pack, _ := h.PipelinePack(f.msgLoopCount)
 		tagField, _ := message.NewField("StreamAggregatorTag", tag, "")
                 pack.Message.AddField(tagField)
